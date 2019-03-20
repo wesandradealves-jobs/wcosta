@@ -6,33 +6,33 @@
 
         $ptype = explode('_', get_queried_object()->taxonomy)[0];
 
-      	if(get_queried_object() && $ptype == 'servicos'){
-			$args = array( 
-				'post_type' => $ptype, 
-				'posts_per_page' => -1,
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => get_queried_object()->taxonomy,
-                        'terms' => get_queried_object()->slug,
-                        'field' => 'slug',
-                        'include_children' => true,
-                        'operator' => 'IN'
-                    )
-                )					
-			);
-			$loop = new WP_Query( $args );
-			echo '<ul class="grid produto-grid">';
-			while ( $loop->have_posts() ) : 
-				$loop->the_post();
-				echo '
-	              <li>
-	                <a href="'.get_permalink().'" style="background-image:url('.wp_get_attachment_url(get_post_thumbnail_id($post->ID), 'full').')">
-	                  <span class="caption">'.get_the_title().'</span>
-	                </a>
-	              </li>
-				';
-			endwhile;
-			echo '</ul>';
+      	if(get_queried_object() && $ptype == 'produtos' || $ptype == 'segmentos'){
+				$args = array( 
+					'post_type' => $ptype, 
+					'posts_per_page' => -1,
+	                'tax_query' => array(
+	                    array(
+	                        'taxonomy' => get_queried_object()->taxonomy,
+	                        'terms' => get_queried_object()->slug,
+	                        'field' => 'slug',
+	                        'include_children' => true,
+	                        'operator' => 'IN'
+	                    )
+	                )					
+				);
+				$loop = new WP_Query( $args );
+				echo '<ul class="grid produto-grid">';
+				while ( $loop->have_posts() ) : 
+					$loop->the_post();
+					echo '
+		              <li>
+		                <a href="'.get_permalink().'" style="background-image:url('.wp_get_attachment_url(get_post_thumbnail_id($post->ID), 'full').')">
+		                  <span class="caption">'.get_the_title().'</span>
+		                </a>
+		              </li>
+					';
+				endwhile;
+				echo '</ul>';
       	} else {
             $loop = new WP_Query( array(
                 'post_type'              => array( 'post' ),
